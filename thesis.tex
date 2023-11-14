@@ -6,6 +6,8 @@ BCOR=0mm,
 pagesize=auto,
 draft=false]{scrreprt}
 
+\usepackage[round]{natbib}
+
 \input{tex/personal_setting}
 \input{tex/setting}
 
@@ -23,11 +25,17 @@ draft=false]{scrreprt}
 \pagenumbering{arabic}
 \input{tex/chap1}
 \include{tex/chap2}
-\include{tex/chap3}
+\include{tex/part1/part1}
+\include{tex/part1/chap3}
+\include{tex/part1/chap4}
+\include{tex/part2/part2}
+\include{tex/part2/chap5}
+\include{tex/part2/chap6}
+\include{tex/part2/chap7}
 \include{tex/conclusions}
 \include{tex/acknowledgements}
 
-\input{tex/references}
-\include{tex/publist}
+\bibliographystyle{plainnat}
+\bibliography{thesis}
 
 \end{document}
