@@ -11,7 +11,7 @@ draft=false]{scrreprt}
 \usepackage{caption}
 \usepackage{multirow}
 \usepackage{subcaption}
-
+\usepackage{fancyhdr}
 \captionsetup{labelfont=bf,format=plain,labelsep=period}
 
 
@@ -19,6 +19,7 @@ draft=false]{scrreprt}
 \input{tex/setting}
 
 \begin{document}
+
 \include{tex/class_setting/titlepage}
 \include{tex/cmembers}
 \pagenumbering{roman}
@@ -26,21 +27,21 @@ draft=false]{scrreprt}
 
 \tableofcontents
 \listoffigures
-\clearpage
 \listoftables
-
+\clearpage
+\pagestyle{fancy}
 \pagenumbering{arabic}
 \input{tex/chap1}
-\include{tex/chap2}
-\include{tex/part1/part1}
-\include{tex/part1/chap3}
-\include{tex/part1/chap4}
-\include{tex/part2/part2}
-\include{tex/part2/chap5}
-\include{tex/part2/chap6}
-\include{tex/part2/chap7}
-\include{tex/conclusions}
-\include{tex/acknowledgements}
+\input{tex/chap2}
+\input{tex/part1/part1}
+\input{tex/part1/chap3}
+\input{tex/part1/chap4}
+\input{tex/part2/part2}
+\input{tex/part2/chap5}
+\input{tex/part2/chap6}
+\input{tex/part2/chap7}
+\input{tex/conclusions}
+\input{tex/acknowledgements}
 
 \bibliographystyle{plainnat}
 \bibliography{thesis}

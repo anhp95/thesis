@@ -1,4 +1,8 @@
 \chapter{Ukraine's case study}
+\renewcommand{\headrulewidth}{0pt}
+\lhead[\thepage]{\leftmark}
+\rhead[\leftmark]{\thepage}
+\cfoot[]{}
 \section{Introduction}
 Nitrogen dioxide (NO\textsubscript{2}) is a key air pollutant that can have harmful effects on human health. An increase in nitrogen oxide (NOx = NO + NO2) concentrations contributes to global warming through a chemical reaction that leads to the formation of ozone (O3), a short- lived climate pollutant with a potent warming effect \citep{ipcc2013}. The lifetime of NO2 is strongly influenced by photochemical reactions and meteorological parameters \citep{barre2021estimating} and varies seasonally \citep{dragomir2015modeling,kendrick2015diurnal}. During winter, photochemical reaction activity is reduced, resulting in a longer lifetime of the NO2. Additionally, seasonal variations in NO2 concentration are controlled by dispersion processes which are significantly affected by changes in boundary layer height (BLH), wind speed and direction patterns due to temperature inversions in summer and winter \citep{barre2021estimating,kendrick2015diurnal}. NO2 concentration levels have been widely used to evaluate decreases in emissions associated with intervention events such as the COVID-19 pandemic lockdown and impacts on the air quality due to the short lifetime of NO2 in the atmosphere \citep{barre2021estimating,cooper2022global}.
 In Europe, anthropogenic NOx emissions are mainly attributed to combustion processes in transportation, as well as energy production and distribution. \par
@@ -40,7 +44,7 @@ In this study, we conducted experiments using two versions of S5P NO2 data. The 
 
 Regarding the RPRO data, we began by downloading the level 2 (L2) dataset. In order to generate the L3 NO2 dataset, each operational L2 product underwent mosaicking and filtering of low-quality pixels, which involved removing items with quality assurance (QA) values less than 75\% for the \enquote{tropospheric\_NO2\_column\_number\_density} band. The harpconvert tool was utilized to perform the conversion from L2 to L3 product. Subsequently, both datasets were linearly interpolated to a spatial resolution of 0.1$\times$0.1 degree. At the time of the experiment, the RPRO data was only accessible until July 2022.\par
 
-Plots presented in Figures \ref{fig:chap3_fig1a} and \ref{fig:chap3_fig1b} display the average monthly S5P TROPOMI NO2 tropospheric column over Ukraine from 2019 to 2022 (February to July) using the ORG data and RPRO data, respectively. In 2020, a reduction of 4.8\% (ORG data) and 8.3\% (RPRO data) in mean NO2 levels over the Ukrainian territory was observed from April to May, compared to levels recorded in 2019. In 2022, a reduction of 2.4\% (ORG data) and 2.9\% (RPRO data) was seen from March to July, compared to levels recorded in 2021. Additionally, during the same period, a reduction of 10.3\% (ORG data) and 15\% (RPRO data) was observed, compared to the NO2 levels recorded in 2019. We observed that the reduction in NO2 levels was more significant in the RPRO data compared to the ORG data, both during the lockdown in 2020 and the first five months (March–July) of the conflict in 2022 in Ukraine.\par
+Plots presented in Figures \ref{fig:chap3_fig1a} and \ref{fig:chap3_fig1b} display the average monthly TROPOMI NO2 tropospheric column over Ukraine from 2019 to 2022 (February to July) using the ORG data and RPRO data, respectively. In 2020, a reduction of 4.8\% (ORG data) and 8.3\% (RPRO data) in mean NO2 levels over the Ukrainian territory was observed from April to May, compared to levels recorded in 2019. In 2022, a reduction of 2.4\% (ORG data) and 2.9\% (RPRO data) was seen from March to July, compared to levels recorded in 2021. Additionally, during the same period, a reduction of 10.3\% (ORG data) and 15\% (RPRO data) was observed, compared to the NO2 levels recorded in 2019. We observed that the reduction in NO2 levels was more significant in the RPRO data compared to the ORG data, both during the lockdown in 2020 and the first five months (March–July) of the conflict in 2022 in Ukraine.\par
 
 We summarize the number of qualified observations available for each month from 2019 to 2022 (February to July) in Ukraine using the ORG data (Figure \ref{fig:chap3_fig2a}) and RPRO data (Figure \ref{fig:chap3_fig2b}). The quantification of seasonal NO2 levels can be challenging, particularly during the selected months in winter (February) and spring (March, April) of 2021 and 2022, due to the limited availability of qualified observations. This is further complicated when attempting to estimate changes before and after intervention events such as the lockdown and the armed conflict in Ukraine, as the before period falls within the winter months when observations are scarce.\par
 
@@ -60,10 +64,10 @@ When considering changes induced by the pandemic lockdown and the armed conflict
     \begin{tabular}{c c c c c c c}
     \hline
         ~ & MB  & nMB & RMSE & nRMSE & R & n \\ \hline
-        \multicolumn{7}{c}{Performance with S5P data version 1.x \textminus ORG data} \\ \hline
+        \multicolumn{7}{c}{Performance with S5P data version 1.x\textminus ORG data} \\ \hline
         Training set & $\mathrm{3.68}\times10\textsuperscript{-5}$ & $\mathrm{1.53}\times10\textsuperscript{-4}$ & 7.80 & 7.40 & 0.87 & 5022  \\
         Validation set & 0.03 & 0.10 & 9.53 & 10.98 & 0.80 & 1269 \\ \hline
-        \multicolumn{7}{c}{Performance with S5P data version 2.4 \textminus RPRO data} \\ \hline
+        \multicolumn{7}{c}{Performance with S5P data version 2.4\textminus RPRO data} \\ \hline
         Training set & $\mathrm{2.67}\times10\textsuperscript{-4}$ & $\mathrm{1.04}\times10\textsuperscript{-3}$ & 6.97 & 5.12 & 0.91 & 5051  \\
         Validation set & 0.07 & 0.26 & 8.47 & 7.75 & 0.86 & 1242 \\ \hline
     \end{tabular}
@@ -71,7 +75,8 @@ When considering changes induced by the pandemic lockdown and the armed conflict
 
 \begin{table}[!ht]
     \centering
-    \begin{tabular}{c c c c c c c c c}
+    \caption{The OBS-BAU and year-to-year (2020–2019) estimates (in percentage) during pre-lockdown and lockdown periods in the nine most populous cities in Ukraine. The values are represented as mean, while standard deviation is not presented here due to lack of space.}
+    \begin{tabular}{l c c c c c c c c}
     \hline
         \multirow{3}{*}{City} & \multicolumn{4}{c}{Pre-lockdown (March 1 \textminus 15)} & \multicolumn{4}{c}{Lockdown (April 6 \textminus May 10)} \\ \cline{2-9}
             ~& \multicolumn{2}{c}{OBS-BAU} & \multicolumn{2}{c}{2020\textminus2019} & \multicolumn{2}{c}{OBS-BAU} & \multicolumn{2}{c}{2020\textminus2019} \\ \cline{2-9}
@@ -88,6 +93,64 @@ When considering changes induced by the pandemic lockdown and the armed conflict
         Mean & 3.7 & 12.5 & 5.2 & 13.9 & 0.5 & 10.2 & \textminus15.6 & \textminus11.1 \\ \hline
     \end{tabular}
 \end{table}
+
+\begin{table}[!ht]
+    \centering
+    \caption{The OBS-BAU estimate (in percentage) of ORG data and RPRO data for the strict lockdown period (April 6 to May 10) in 2020 and in 2022 for the nine most populous cities in Ukraine. The values are represented as mean (with standard deviation in parentheses). The mean and standard deviation in the last row were calculated across the nine cities.}
+    \begin{tabular}{c c c c c }
+        \hline
+            \multirow{2}{*}{City} & \multicolumn{2}{c}{2020 (April 6 \textminus May 10)} & \multicolumn{2}{c}{2022 (April 6 \textminus May 10)} \\ \cline{2-5}
+            & {ORG} & {RPRO} & {ORG} & {RPRO} \\ \hline
+            Kyiv & \textminus18.8 (6.5) & 4.9 (17.4) & \textminus29.3 (9.5) & \textminus34.6 (7.6)  \\
+            Kharkiv & \textminus0.9 (10.3) & \textminus4.9 (15.9) & \textminus24.9 (17.9) & \textminus29.7 (20.8)  \\
+            Odessa & 6.9 (12.4) & 21.0 (16.4) & \textminus7.6 (14.3) & \textminus14.5 (9.7)  \\
+            Dnipro & \textminus6.6 (9.2) & 2.8 (10.9) & \textminus17.4 (10.0) & \textminus19.5 (8.6)  \\
+            Donetsk & 28.2 (35.2) & 42.0 (29.8) & 3.5 (19.9) & 3.2 (18.7)  \\
+            Zaporizhzhia & 2.5 (9.1) & 9.1 (12.7) & \textminus12.6 (13.7) & \textminus18.4 (11.6)  \\
+            Lviv & 0.0 (10.9) & 3.0 (8.5) & 14.9 (17.9) & \textminus3.3 (9.9)  \\
+            Kryvyi Rih & \textminus6.4 (8.7) & 0.1 (9.9) & \textminus20.8 (9.8) & \textminus27.7 (8.1)  \\
+            Mykolaiv & \textminus0.6 (9.8) & 13.8 (17.6) & \textminus14.6 (10.1) & \textminus18.0 (6.8)  \\
+            Mean & 0.5 (11.9) & 10.2 (13.3) & \textminus12.1 (13.2) & \textminus18.1 (11.5) \\ \hline
+        \end{tabular}
+\end{table}
+
+\begin{table}[!ht]
+    \centering
+    \caption{Average OBS-BAU and year-to-year estimate (in percentage) of ORG data and RPRO data from February 24 to July 31, 2022, for the nine most populous cities in Ukraine. The values are represented as mean (with standard deviation in parentheses). The mean and standard deviation in the last row were calculated across the nine cities.}
+    \label{tab:tab5}
+    \begin{tabular}{c c c c c }
+        \hline
+            \multirow{2}{*}{City} & \multicolumn{2}{c}{ORG} & \multicolumn{2}{c}{RPRO} \\\cline{2-5}
+            & {OBS-BAU} & {year-to-year} & {OBS-BAU} & {year-to-year} \\ \hline
+            Kyiv & \textminus14.9 (17.3) & \textminus30.5 (14.7) & \textminus27.6 (12.1) & \textminus37.3 (11.3)  \\
+            Kharkiv & \textminus3.2 (28.5) & 20.7 (39.8) & \textminus3.0 (33.3) & 2.4 (23.6)  \\
+            Odessa & \textminus6.8 (15.4) & \textminus13.6 (16.4) & \textminus5.4 (13.0) & 4.5 (61.0)  \\
+            Dnipro & \textminus12.4 (16.6) & \textminus15.0 (21.3) & \textminus17.6 (13.8) & \textminus17.0 (20.5)  \\
+            Donetsk & 19.4 (26.6) & 4.2 (21.5) & 17.0 (22.8) & \textminus9.4 (15.8)  \\
+            Zaporizhzhia & \textminus10.5 (16.4) & \textminus15.7 (27.3) & \textminus13.7 (14.4) & \textminus19.1 (18.6)  \\
+            Lviv & 20.8 (21.9) & \textminus9.0 (24.1) & 2.2 (16.8) & \textminus9.8 (17.3)  \\
+            Kryvyi Rih & \textminus15.5 (15.7) & \textminus22.4 (21.7) & \textminus17.4 (15.0) & \textminus26.2 (42.7)  \\
+            Mykolaiv & \textminus4.8 (13.1) & \textminus7.8 (23.5) & 2.1 (14.8) & 12.9 (21.9)  \\
+            Mean & \textminus3.1 (13) & \textminus9.9 (14.1) & \textminus7 (12.7) & \textminus11 (15) \\ \hline
+        \end{tabular}
+\end{table}
+
+\begin{table}[!ht]
+    \centering
+    \caption{The hyperparameters used to develop the LightGBM model with S5P data version 1.x and version 2.4. We used FLAML library \citep{wang2021flaml} for tuning these following parameters: shrinkage rate (learning\_rate), minimal number of data in one leaf (min\_data\_in\_leaf), minimal sum hessian in one leaf (min\_sum\_hessian\_in\_leaf), number of boosting iterations (num\_iterations), max number of leaves in one tree (num\_leaves).}
+    \label{tab:tab1}
+    \begin{tabular}{c c c}
+        \hline
+            Parameter & S5P v1.x & S5P v2.4  \\ \hline
+            learning\_rate & 0.30775042929674906 & 0.3858774543125185  \\
+            min\_data\_in\_leaf & 11 & 5  \\
+            min\_sum\_hessian\_in\_leaf & 0.001 & 0.001  \\
+            num\_iterations & 907 & 3451  \\
+            num\_leaves & 8604 & 4342  \\ \hline
+    \end{tabular}
+
+\end{table}
+
 The main shortcoming of this method is the lack of qualified reference data to develop the weather normalization model under BAU conditions, as the S5P TROPOMI data has been only available since mid-2018. Only one year of training data in 2019 is considered relatively small, thus resulting in large errors in BAU simulations in winter months as during this time, limited qualified S5P observations are available and NO2 pollution levels are quite unpredictable due to the inconsistency in heating activities and NO2 intake from Poland.\par
 \section{NO2 changes induced by COVID-19 lockdown} \label{chap3_covid}
 The purpose of this section is to examine the effect of the lockdown on changes in NO2 column levels in populous urban areas, namely the nine cities Kyiv, Kharkiv, Odessa, Dnipro, Donetsk, Zaporizhzhia, Lviv, Kryvyi Rih, and Mykolaiv (listed in declining order of population). To begin, we analyse the meteorological patterns during the pre-lockdown and lockdown periods and discuss how these might influence the NO2 levels, apart from the impacts of the lockdown measures. Next, we utilize two methods to estimate changes in NO2 levels. The first method, known as the year-to-year approach suggested by \citep{barre2021estimating}, involves calculating the median value of the actual S5P observation data in 2020 and subtracting the observation data from 2019. The second method, OBS-BAU, utilizes the median value of the actual observation data (OBS) in 2020 and subtracts the simulated NO2 levels that represent the BAU scenario, which are predicted by the S5P tropospheric NO2 column levels without any lockdown measures. The BAU simulations are based on the representation of meteorological, spatial, and temporal parameters. \par
