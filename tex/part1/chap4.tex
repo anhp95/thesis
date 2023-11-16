@@ -66,6 +66,24 @@ To accurately quantify the actual change in the levels of the four pollutants, w
     \label{fig:chap4_fig3}
 \end{figure}
 
+\begin{table}[!ht]
+    \centering
+    \caption[Model performance evaluation]{The performance of BAU model on the test set (30\% station data) with the following metrics: Pearson correlation coefficient (R), root mean square error (RMSE), normalized root mean square error (NormRMSE) and mean bias error (MBE), normalized mean bias error (NormMBE). For the normalized MBE and RMSE, we normalize values for each station and then compute the mean}
+    \begin{tabular}{c c c c c c c}
+        \hline
+        Pollutants & Station type & R & RMSE & NormRMSE & MBE & NormMBE \\ \hline
+        \multirow{2}{*}{NO2}    & AAMS & 0.89 & 3.13 & 0.15 & -0.12 & -0.07  \\
+            & RsAMS & 0.88 & 4.84 & 0.10 & 0.30 & -0.03  \\ \hline
+        \multirow{2}{*}{O3}    & AAMS & 0.96 & 3.75 & 0.02 & -0.37 & -0.02  \\
+            & RsAMS & 0.96 & 4.92 & 0.06 & -3.18 & -0.16  \\ \hline
+        \multirow{2}{*}{CO}    & AAMS & 0.73 & 0.84 & 0.17 & 0.00 & -0.07  \\
+            & RsAMS & 0.77 & 1.23 & 0.13 & 0.39 & 0.04  \\ \hline
+        \multirow{2}{*}{CH4}    & AAMS & 0.82 & 3.75 & 0.00 & -0.29 & 0.00  \\
+            & RsAMS & 0.80 & 3.82 & 0.00 & -0.26 & 0.00  \\ \hline
+    \end{tabular}
+    \label{tab:chap4_tab1}
+\end{table}
+
 We employed the LightGBM machine learning model \citep{ke2017lightgbm}, a gradient boosting decision tree algorithm, to construct the BAU model using the aforementioned predictors. To fine-tune the model's hyperparameters, we utilized Fast and Lightweight AutoML Library (FLAML) \citep{wang2021flaml}, a lightweight library specifically designed for accurately identifying optimal hyperparameters for models. During the training process, we utilized 70\% of the station data within each metropolitan area (MA), while the remaining 30\% was reserved for validating the model's performance. Both the training and test data sets were randomly selected for each MA, ensuring unbiased representation across the dataset.\par
 
 In order to evaluate the performance of the BAU model we utilized the following metrics mean bias error (MBE), normalized mean bias error (NormMBE), root mean square error (RMSE), normalized root mean square error (NormRMSE) and Pearson correlation coefficient (R) as suggested by \citep{grange2021covid}. The detailed results are presented in Figure 3 for each pollutant and station, average scores are shown in Table 1. In general, the model demonstrated strong performance with high R values (mostly R > 0.8) and low MBE and RMSE scores when applied to the test set for NO2, O3, and CH4. Regarding CO, the model achieved a satisfactory R value (R > 0.73).\par
@@ -98,10 +116,27 @@ Prior studies have indicated the importance of considering meteorological factor
         \centering
         \includegraphics[width=\textwidth]{figs/chap4/fig4c.png}
         \label{fig:chap4_fig4c}
-      \end{subfigure}
+    \end{subfigure}
     \caption[NO2 reduction trends in 2020]{(a) Mean ground observation trend with the reduction in NO2 due to the lockdown in 2020 for AAMS and RsAMS. (b) Map visualization of the “OBS-BAU” estimate for NO2 during the lockdown period. (c) The 7-day rolling mean of 2020 observation (OBS), BAU prediction (BAU), and mean level of NO2 from 2016 to 2019 for 4 MAs}
     \label{fig:chap4_fig4}
 \end{figure}
+
+
+\begin{table}[tbh!]
+    \centering
+    \caption[short]{OBS-BAU estimates for NO2 during the lockdown (April 7 to May 25) and post-lockdown (August 1 to 31). For timeseries estimate, we considered all days of the week. However, when considering weekday, we only included Monday to Friday, while for weekends, we only accounted for Sunday and Saturday. The values are represented as mean (standard deviation)}
+    \begin{adjustbox}{width=\textwidth}
+        \begin{tabular}{c c c c c c c}
+        \hline
+            \multirow{3}{*}{Station type} & \multicolumn{3}{c}{Lockdown (April 7 \textminus May 25)} & \multicolumn{3}{c}{Post-lockdown (August 1\textminus31)}\\ \cline{2-7}
+                & Timeseries  & Weekday  & Weekend  & Timeseries  & Weekday  & Weekend  \\
+                & (\%)  & (\%)  & (\%)  & (\%)  & (\%)  & (\%)  \\ \hline
+            AAMS & -14.5 (12.1) & -12.9 (14.3) & -18.4 (8.6) & -10.2 (7.3) & -6.8 (7.8) & -17.2 (8.3)  \\
+            RsAMS & -19.1 (13.5) & -18.0 (14.2) & -21.9 (13.9) & -18.1 (11.2) & -13.6 (12.3) & -27.4 (10.0)  \\ \hline
+        \end{tabular}
+    \end{adjustbox}
+    \label{tab:chap4_tab21}
+\end{table}
 
 Overall, NO2 levels exhibited a decline across most MAs. The decline in emissions was particularly significant in RsAMS compared to AAMS in most MAs, with an average reduction of 19.1\% and 14.5\% respectively. However, these reductions were smaller compared to those observed in European cities \citep{barre2021estimating,grange2021covid}. Additionally, we observed that the reduction in NO2 levels during weekends was more significant than on weekdays, primarily due to a substantial decrease in mobility during weekends compared to weekdays (refer to Figure 1b). During the lockdown the average reduction in NO2 levels for AAMS was 12.9\% on weekdays and 18.4\% on weekends. As for RsAMS, the average reduction stood at 18\% on weekdays and 21.9\% on weekends. For most MAs, even the lockdown has been lifted in the end of May 2020, the NO2 level still continue to decline until the end of December 2020. This ongoing decrease may be attributed to the sustained reduction in mobility trends from the period of the lockdown through the end of 2020 (as illustrated in Figure 1a). These findings are summarized in Table 2 and Table 3. \par
 
@@ -126,6 +161,22 @@ To explore this variation further, we analyzed the disparity in T2M and SR betwe
     \caption[2020 O3 mean trends (4 MAs)]{The 7-day rolling mean of 2020 observation (OBS), BAU prediction (BAU), and mean level of O3 from 2016 to 2019 for 4 MAs (Kanto, Kinki, Chukyo, and Fukuoka)}
     \label{fig:chap4_fig6}
 \end{figure}
+
+\begin{table}[tbh!]
+    \centering
+    \caption[short]{OBS-BAU estimates for O3 during the lockdown (April 7 to May 25) and post-lockdown (August 1 to 31). For timeseries estimate, we considered all days of the week. However, when considering weekday, we only included Monday to Friday, while for weekends, we only accounted for Sunday and Saturday. The values are represented as mean (standard deviation)}
+    \begin{adjustbox}{width=\textwidth}
+        \begin{tabular}{c c c c c c c}
+        \hline
+            \multirow{3}{*}{Station type} & \multicolumn{3}{c}{Lockdown (April 7 \textminus May 25)} & \multicolumn{3}{c}{Post-lockdown (August 1\textminus31)}\\ \cline{2-7}
+                & Timeseries  & Weekday  & Weekend  & Timeseries  & Weekday  & Weekend  \\
+                & (\%)  & (\%)  & (\%)  & (\%)  & (\%)  & (\%)  \\ \hline
+            AAMS & -2.3 (2.7) & -2.7 (3.2) & -1.2 (2.7) & 2.2 (15.6) & 3.2 (15.3) & 0.0 (18.8)  \\
+            RsAMS & -0.6 (2.7) & -1.4 (2.7) & 1.4 (3.7) & 8.9 (10.7) & 8.9 (12.3) & 8.6 (12.7)  \\ \hline
+        \end{tabular}
+    \end{adjustbox}
+    \label{tab:chap4_tab22}
+\end{table}
 
 \subsubsection*{Changes during the August, 2020}
 In August 2020, the NO2 levels continued to decline in all MAs, albeit at a slower rate compared to the lockdown period, as shown in Table 2. However, during this period, we observed a more noticeable increase in O3 levels across most MAs compared to the lockdown. On average, there was a 8.9\% increase for RsAMS and a 2.2\% increase for AAMS. Notably, the increase in O3 levels during weekends was more significant than on weekdays in Niigata, Okayama, Kinki and Sendai. Specifically, For AAMS of Niigata, O3 levels experienced a 9.4\% increase on weekends and a 5.8\% increase on weekdays. In RsAMS of Okayama, O3 levels saw a 13\% increase on weekends, exceeding the 10.6\% increase observed on weekdays. Similarly, in AAMS in the Kinki region, O3 levels exhibited a weekend increase of 19.8\%, surpassing the 17.4\% increase observed on weekdays. In Sendai, the increase during weekends was even more pronounced, with a 15.6\% increase for AAMS and a 22\% increase for RsAMS, whereas on weekdays the increase was 5.1\% for AAMS and 9.8\% for RsAMS. This observation could be attributed to the greater reduction in movement during weekends compared to weekdays in these MAs as show in Figure 1b. \par
@@ -164,6 +215,23 @@ During the lockdown period, we observed a marginal rise in CH4 levels across mos
     \caption[2020 CO and CH4 mean trends (4 MAs)]{The 7-day rolling mean of 2020 observation (OBS), BAU prediction (BAU), and mean level of CO (a) and CH4 (b) from 2016 to 2019 for 4 MAs (Kanto, Kinki, Chukyo, and Fukuoka)}
     \label{fig:chap4_fig8}
 \end{figure}
+
+\begin{table}[tbh!]
+    \centering
+    \caption[short]{OBS-BAU estimates for NO2 and CO and CH4 during the lockdown (April 7 to May 25) and the post-lockdown (June 1 to December 31). For CH4 analysis we only consider timeseries estimate which include all days of the week. The values are represented as mean (standard deviation)}
+    \begin{tabular}{c c c c}
+    \hline
+    \multirow{2}{*}{Pollutant} & \multirow{2}{*}{Station type} & (April 7 – May 25) & (June 1 – December 31) \\ 
+                                &                              & (\%) & (\%) \\ \hline
+    \multirow{2}{*}{NO2} & AAMS & -14.5 (12.1) & -12.8 (4.3)  \\
+        & RsAMS & -19.1 (13.5) & -18.3 (6.4)  \\ \hline
+    \multirow{2}{*}{CO} & AAMS & -10.9 (11.0) & -5.7 (9.4)  \\
+        & RsAMS & -8.8 (24.6) & -5.5 (25.2)  \\ \hline
+    \multirow{2}{*}{CH4} & AAMS & 0.6 (0.3) & 1.3 (0.2)  \\
+        & RsAMS & 0.8 (0.6) & 1.1 (0.9)  \\ \hline
+    \end{tabular}
+    \label{tab:chap4_tab3}
+\end{table}
 
 During the post-lockdown period from June to December 2020, NO2 levels continued to decrease, showing an average reduction of 12.8\% for AAMS and 18.3\% for RsAMS (Table 3) which is smaller than during the lockdown period. In contrast, CO levels started to recover as the COVID-19 lockdown was lifted, with a smaller reduction of 5.7\% for AAMS and 5.5\% for RsAMS. Notably, significant increases in CO levels were still evident at RsAMS in Kagoshima (62.2\%). In Fukuoka we also observed a steady rise of CO levels in both RsAMS (13\%) and AAMS (11.5\%). In response to these changes in NO2 and CO, we observed a greater increase in CH4 levels during this period, with a rise of 1.3\% for AAMS and 1.1\% for RsAMS.\par
 In general, we saw a slight increase in CH4 levels both during the lockdown and the post-lockdown periods, based on the "OBS-BAU" estimates. However, a more pronounced increase in CH4 was observed during the post-lockdown phase in AAMS when compared to RsAMS, which can be attributed to the more substantial recovery of CO levels in AAMS relative to the lockdown period. Although it has been reported that global CH4 growth in 2020 is primarily attributed to the atmospheric sink resulting from lower anthropogenic NOx emissions \citep{stevenson2022covid,peng2022wetland}, our findings regarding the contribution of NOx reduction to the CH4 growth in Japan in 2020 align with a previous study \citep{akimoto2022rethinking,qu2022attribution,feng2023methane}, indicating that the impact of NOx and CO change on the increase in CH4 growth in Japan during the lockdown and post-lockdown period is not as significant as the direct CH4 emission itself. \par
