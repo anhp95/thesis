@@ -78,6 +78,79 @@ The Emission Tracker provides information on emissions and energy consumption at
 
 The "Drawdown" page introduces a comprehensive roadmap for reducing CO2 emissions by 2050 at the municipal level in Japan. Specifically, it presents a roadmap with various parameters, including trends in energy consumption, trends in CO2 emissions by energy type, trends in CO2 emissions by sector/industry, regional renewable energy electricity, regional production-consumption planning, and the ratio of total regional production-consumption to total energy usage. Additionally, it visualizes the total CO2 emissions reduction by 2030, 2040, and 2050. This allows municipal officials not only to understand their municipality's data in detail but also to deepen their understanding through personalized data comparisons with other similar municipalities using multi-screen comparisons. Figure 2 summarizes the interfaces corresponding to each function. While the Emission Tracker page is available in both English and Japanese, the Drawdown page is currently only available in Japanese. Moreover, API URLs are provided to allow users to access data programmatically and integrate it into their applications or software. This not only enhances the overall functionality of the platform in the future but also encourages knowledge sharing and the development of new applications to address the ongoing climate crisis. \par
 The GIS platform is accessible at http://de14.digitalasia.chubu.ac.jp/.\par
+
+\begin{lstlisting}[language=json,firstnumber=1][p]
+  {
+    "features": [
+      {
+        "geometry": {
+          "coordinates": [
+            [...]
+          ],
+          "type": "Polygon"
+        },
+        "id": "26",
+        "properties": {
+          "adm_code": 23100,
+          "agriculture": 30,
+          "building": 3435,
+          "business": 5034,
+          "city": "Nagoya Shi",
+          "construction_mining": 235,
+          "consumer_total": 8469,
+          "freight_car": 1222,
+          "industry_total": 3900,
+          "manufacture": 3635,
+          "passenger_car": 2134,
+          "pref": "Aichi Ken",
+          "pref_code": 23,
+          "railway": 126,
+          "ship": 46,
+          "total": 16017,
+          "transportation_total": 3528,
+          "waste": 121
+        },
+        "type": "Feature"
+      }
+    ],
+    "type": "FeatureCollection"
+  }
+\end{lstlisting}
+\begin{lstlisting}[language=json,firstnumber=1][p]
+  {
+  "result": [
+    {
+      "agriculture": 39,
+      "building": 2473,
+      "business": 3032,
+      "construction_mining": 311,
+      "freight_car": 1478,
+      "manufacture": 6910,
+      "passenger_car": 1840,
+      "railway": 133,
+      "ship": 36,
+      "waste": 144,
+      "year": 1990
+    },
+    ...
+    {
+      "agriculture": 30,
+      "building": 3435,
+      "business": 5034,
+      "construction_mining": 235,
+      "freight_car": 1222,
+      "manufacture": 3635,
+      "passenger_car": 2134,
+      "railway": 126,
+      "ship": 46,
+      "waste": 121,
+      "year": 2005
+    },
+  ]
+}
+\end{lstlisting}
+
+
 \subsection{Discussion}
 
 When comparing this GIS platform to existing platforms like Project Drawdown [4] (refer to Figure 3a) and Drawdown Georgia [6] (refer to Figure 3b), the interface design may differ slightly, but the commonality lies in charts and maps being fundamental components.\par
