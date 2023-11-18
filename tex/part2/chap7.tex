@@ -21,6 +21,12 @@ one place.\par
 
 \section{Method}
 Figure 1 illustrates the architecture of the GIS platform constructed in this study and the core technologies employed in its development. Initially, the collection, preprocessing, and archiving of CO2 emissions and related data from multiple sources are conducted. This data is made accessible to end-users for visualization and other purposes through the development of Application Programming Interfaces (APIs). The API is designed to encompass two main functionalities: the CO2 Emissions Tracker and Zero Carbon Modeling (Drawdown). In the CO2 Emissions section, users can examine trends and patterns in CO2 emissions. In the Zero Carbon Modeling (Drawdown) section, roadmaps are presented for 1,741 municipalities, each outlining effective reduction strategies for achieving carbon neutrality by 2050.\par
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figs/chap7/platform_architecture.png}
+  \caption[Platform architecture]{Platform Architecture and the technology used to develop the GIS platform}
+  \label{fig:chap7_fig1}
+\end{figure}
 
 By leveraging cutting-edge GIS technology, this platform enables decision-makers to visualize and comprehend greenhouse gas (GHG) emissions data from various sectors. It facilitates the analysis and understanding of distinctive features, empowering informed policy decisions based on integrated information aimed at mitigating the impacts of climate change. \par
 \subsection{Data collection}
@@ -28,32 +34,164 @@ Table 1 summarizes the details of the datasets introduced into the GIS platform,
 
 \begin{table}[!ht]
     \centering
+    \caption{The dataset used for the GIS platform development}
     \begin{adjustbox}{width=\textwidth}
-        \begin{tabular}{l l l }
+        \begin{tabular}{l l}
         \hline
             Dataset & Data source \\ \hline
-            CO2 emissions by sector & (https://www.env.go.jp/policy/local\_keikaku/tools/suikei2.html) \\
-            Energy consumption statistics & (https://energy-sustainability.jp/consumption/) \\
-            Power generation facility & (https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-P03.html) \\
-            Hokkaido Electric Power Company & \citep{hokkaido} \\
-            Tohoku Electric Power Company & \citep{tohoku} \\
-            Tokyo Electric Power Company & \citep{Tokyo} \\
-            Chubu Electric Power Company & \citep{Chubu} \\
-            Hokuriku Electric Power Company & \citep{Hokuriku} \\
-            Kansai Electric Power Company & \citep{Kansai} \\
-            Chugoku Electric Power Company & \citep{Chugoku} \\
-            Shikoku Electric Power Company & \citep{Shikoku} \\
-            Kyushu Electric Power Company & \citep{Kyushu} \\
-            Okinawa Electric Power Company & \citep{Okinawa} \\ \hline
+            CO2 emissions by sector & \citep{env2022} \\ \hline
+            Energy consumption statistics & \citep{Toshihiko} \\ \hline
+            Power generation facility & \citep{nlftp} \\ \hline
+            \multirow{10}{*}{Power consumption and forecasts} & \citep{hokkaido} \\
+            ~ & \citep{tohoku} \\
+            ~ & \citep{Tokyo} \\
+            ~ & \citep{Chubu} \\
+            ~ & \citep{Hokuriku} \\
+            ~ & \citep{Kansai} \\
+            ~ & \citep{Chugoku} \\
+            ~ & \citep{Shikoku} \\
+            ~ & \citep{Kyushu} \\
+            ~ & \citep{Okinawa} \\ \hline
+            Gross Primary Production & \multirow{3}{*}{\citep{ito2019disequilibrium}} \\
+            Net Ecosystem Production & ~ \\
+            Ecosystem respiration & ~ \\ \hline
+            Zero carbon regional scenario & \citep{zerocarbon} \\
+            \hline
         \end{tabular}
     \end{adjustbox}
+    \label{tab:chap7_tab1}
 \end{table}
 
 \subsection{API development}
 In developing the API to process these data, we utilized Flask, a micro web framework written in Python, and adhered to the JSON API specification for data format. The API of this system visualizes the dashboards for Emission Tracker and Zero Emission Modeling (Drawdown). JSON serves as the primary data format for the API, and all responses adhere to the specifications described in Table 2. The API is deployed on the cloud-based platform Heroku. \par
+
+
+\begin{table}[!ht]
+  \centering
+  \caption{APIs specifications}
+  \begin{adjustbox}{width=\textwidth}
+      \begin{tabular}{lll}
+        \hline
+        End point & Parameters & Description \\ \hline
+        GET /overall\_ems/country  & year: year of the emission data  & Emissions at national level \\ \hline
+        \multirow{2}{*}{GET /overall\_ems/municipality}  & adm\_code: municipality code  & Emissions at municipality level in a specific year \\ 
+        ~ & year: year of the emission data  & ~ \\ \hline
+        GET /overall\_ems/municipality\_ts  & adm\_code: municipality code  & Time-series emissions at municipality level.  \\ \hline
+        GET /overall\_ems/sector  & sector\_type: sector type & Emissions categorized by sectors.  \\ \hline
+        GET /ee\_stats/5mins  & None & Near real time power usage, forecast \\ \hline
+        GET /ee\_stats/energy\_consumption  & adm\_code: municipality code  & Energy consumption at municipality level.  \\ \hline
+        GET /forest\_sink/municipality  & adm\_code: municipality code  & Forest variable at municipality level.  \\ \hline
+        \multirow{2}{*}{GET /industry/annual\_ems}  & adm\_code: municipality code & Industrial emission at municipality level \\ 
+        ~ & year: year of the emission data & ~ \\ \hline
+        GET /zero\_ems/municipality & adm\_code: municipality code & Roadmap to reduce GHG at municipality level \\ \hline
+    \end{tabular}
+  \end{adjustbox}
+  \label{tab:chap7_tab2}
+\end{table}
+
 \subsection{Web application}
 
 In a web application, there are two main functions: (1) Understanding the Reality of CO2 Emissions – Emission Tracker and (2) Modeling a Carbon-Zero Scenario (Drawdown). First, in the CO2 Emission Tracker, it provides an overview of emissions and forest absorption at the local government level. Additionally, it offers data on energy consumption, such as electricity, to aid in understanding the current situation. Specifically, the CO2 Emission Tracker consists of five tabs with the following functions: an overview of emissions, forest absorption, energy consumption, electricity statistics, and emissions by industrial sector (specific establishments). In (2) Drawdown Modeling, it provides simulation results outlining a roadmap to maximize emission reduction by 2050. To build an interactive GIS dashboard, the platform development utilized the following technologies: \par
+
+\begin{figure}[p]
+  \centering
+  \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.9\textwidth]{figs/chap7/home.png}
+      \caption{Forest map in Ena City, Japan}
+      % \label{fig:chap7_fig2a}
+  \end{subfigure}%
+  \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.9\textwidth]{figs/chap7/ems_overview.png}
+      \caption{Map overlays}
+      % \label{fig:chap7_fig2b}
+  \end{subfigure}
+
+  \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.9\textwidth]{figs/chap7/ems_consumption.png}
+      \caption{Forest map in Ena City, Japan}
+      % \label{fig:chap7_fig2a}
+  \end{subfigure}%
+  \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.9\textwidth]{figs/chap7/industrial_ems.png}
+      \caption{Map overlays}
+      % \label{fig:chap7_fig2b}
+  \end{subfigure}
+
+  \begin{subfigure}{.5\textwidth}
+    \centering
+    \includegraphics[width=.9\textwidth]{figs/chap7/ems_forest.png}
+      \caption{Forest map in Ena City, Japan}
+      % \label{fig:chap7_fig2a}
+  \end{subfigure}%
+  \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.9\textwidth]{figs/chap7/ems_electric.png}
+      \caption{Map overlays}
+      % \label{fig:chap7_fig2b}
+  \end{subfigure}
+  \caption[Inferred forest map in Ena City]{Inferred forest map in Ena City, Japan \textminus 2018 (OA \textminus 94.5\%)}
+  \label{fig:chap7_fig2}
+\end{figure}
+
+
+\begin{figure}[tbh!]
+  \centering
+  \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.9\textwidth]{figs/chap7/drawdown1.png}
+      \caption{Forest map in Ena City, Japan}
+      % \label{fig:chap7_fig2a}
+  \end{subfigure}%
+  \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.9\textwidth]{figs/chap7/drawdown2.png}
+      \caption{Map overlays}
+      % \label{fig:chap7_fig2b}
+  \end{subfigure}
+  \caption[Inferred forest map in Ena City]{Inferred forest map in Ena City, Japan \textminus 2018 (OA \textminus 94.5\%)}
+  \label{fig:chap7_fig3}
+\end{figure}
+
+\begin{figure}[tbh!]
+  \centering
+  \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.9\textwidth]{figs/chap7/3d_bldg.png}
+      \caption{Forest map in Ena City, Japan}
+      % \label{fig:chap7_fig2a}
+  \end{subfigure}%
+  \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.9\textwidth]{figs/chap7/3d_ja.png}
+      \caption{Map overlays}
+      % \label{fig:chap7_fig2b}
+  \end{subfigure}
+  \caption[Inferred forest map in Ena City]{Inferred forest map in Ena City, Japan \textminus 2018 (OA \textminus 94.5\%)}
+  \label{fig:chap7_fig3}
+\end{figure}
+
+\begin{figure}[tbh!]
+  \centering
+  \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.9\textwidth]{figs/chap7/api1.png}
+      \caption{Forest map in Ena City, Japan}
+      % \label{fig:chap7_fig2a}
+  \end{subfigure}%
+  \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.9\textwidth]{figs/chap7/api2.png}
+      \caption{Map overlays}
+      % \label{fig:chap7_fig2b}
+  \end{subfigure}
+  \caption[Inferred forest map in Ena City]{Inferred forest map in Ena City, Japan \textminus 2018 (OA \textminus 94.5\%)}
+  \label{fig:chap7_fig3}
+\end{figure}
+
 
 \begin{itemize}
     \item Web Application: Node.js, ReactJS, Redux
