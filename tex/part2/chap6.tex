@@ -4,8 +4,9 @@
 \rhead[\leftmark]{\thepage}
 \cfoot[]{}
 
-\section{Introduction}
-
+\section{Background and summary}
+Terrestrial ecosystem plays a crucial role in mitigating global warming, functioning as a persistent carbon sink \citep{pan2011large}. Terrestrial gross primary production (GPP) is the largest global carbon fluxes which contributes to the reduction of anthropogenic CO2 in the atmosphere \citep{beer2010terrestrial}. Estimation of GPP could possibly be based on the simulation of earth system model \citep{wang2023modeling} and upscaling from flux tower measurements and satellite observations \citep{jung2019fluxcom,zeng2020global}.
+Plant functional types (PFTs) is an important factor in estimating ecosytem productivity \citep{lin2021improved, guo2023estimating, yan2023integrating}. 
 \begin{figure}[tbh!]
     \centering
     \includegraphics[width=\textwidth]{figs/chap6/workflow.png}
@@ -17,7 +18,7 @@
 \subsection{Input data}
 
 \subsubsection*{FLUXNET 2015}
-The FLUXNET 2015 dataset \citep{pastorello2020fluxnet2015} serves as the groundtruth for carbon fluxes in the transformer model in this study. Monthly GPP and RECO data were extracted from the dataset tier 1 of FLUXNET 2015, encompassing data from 206 sites. We filtered out records with a quality control value of less than 80\% for measured and good-quality gap-fill data. Relying solely on quality control values is reported to be insufficient for obtaining qualified data due to inconsistencies in the differences between GPP, RECO, and NEE \citep{zeng2020global, tramontana2016predicting}. Following the approach of \citep{zeng2020global}, we also excluded records with an absolute difference between GPP-RECO and NEE larger than 0.1 gC $m^{-2} d^{-1}$. The distribution of FLUXNET 2015 sites is unbalanced across climate zones, particularly in tropics and semi-arid areas, despite the highest GPP values in tropical regions (Amazonia, Central Africa, and Southeast Asia) \citep{chen2017regional}. Additionally, semi-arid regions are considered important drivers of the global carbon cycle \citep{poulter2014contribution}. Therefore, only the most recent data up to 3 years for each site was used to balance the representation of each site during the training of the transformer model. \par
+The FLUXNET 2015 dataset \citep{pastorello2020fluxnet2015} serves as the groundtruth for carbon fluxes in the transformer model in this study. Monthly GPP and RECO data were extracted from the dataset tier 1 of FLUXNET 2015, encompassing data from 206 sites. We filtered out records with a quality control value of less than 80\% for measured and good-quality gap-fill data. Relying solely on quality control values is reported to be insufficient for obtaining qualified data due to inconsistencies in the differences between GPP, RECO, and NEE \citep{zeng2020global, tramontana2016predicting}. Following the approach of \citep{zeng2020global}, we also excluded records with an absolute difference between GPP-RECO and NEE larger than 0.1 gC $m^{-2} d^{-1}$.
 \subsubsection*{Remote sensing data}
 For the remote sensing data, we employed version 2 of the global leaf area index (LAI) and fraction of absorbed photosynthetically active radiation (FAPAR) datasets, generated using the algorithm proposed by \citep{verger2014near}. These datasets can be accessed through the Copernicus Global Land Service, providing a 1 km spatial resolution for every 10 days spanning from 1999 to 2019. The remote sensing data utilized in this study is in line with the approach presented in \citep{zeng2020global}. The latitude boundary of this dataset ranges from -60°S to 80°N. \par
 \subsubsection*{Meteorological data}
@@ -31,9 +32,35 @@ Figure \ref{fig:chap6_fig1} illustrates the overall workflow of our FluxFormer m
 In order train the MVTS Transformer, First, we extracted the remote sensing data, meteorological data and PFTs for each monthly record from FLUXNET 2015 dataset. Then the extracted data is formed to feed to the deep learning model. In particular, for a specific month \textbf{M}, each traing sample $\mathbf{X} \in \mathbb{R}^{w\times n}$ where \textit{w} is the lengths of timeseries for month \textbf{M} $\textit{w} = 3\times \textbf{M}$ as we have 3 remote sensing products per month and \textit{m} is the number of different variables  $\textit{m} = 21$ 2 remote sensing varibales (LAI and FAPAR), 5 meteorological variables (T2M, SSRD, VPD, TP, E) and 14 PFTs variables, constitutes a sequence of \textit{w} feature vectors $\mathbf{x}\textsubscript{t} \in \mathbb{R}^{m}: \mathbf{X} \in \mathbb{R}^{w\times n} = [\mathbf{x}\textsubscript{1},\mathbf{x}\textsubscript{1}, \dots, \mathbf{x}\textsubscript{w}]$ is a multivariate timeseries of length w and m different variables. \par
 
 \subsection{Training setup}
-In order to train the model, we randomly selected 80\% of the monthly data to train the model and use the rest 20\% for the validation. We train 12 model for 12 months. \par
+To train the model, approximately 80\% of the monthly data was randomly chosen for training, while the remaining 20\% was allocated for validation. Twelve models were trained over the course of 12 months. Notably, the distribution of FLUXNET 2015 sites is uneven across climate zones, particularly in the tropics and semi-arid regions, despite the highest Gross Primary Productivity (GPP) values being observed in tropical areas such as Amazonia, Central Africa, and Southeast Asia\citep{chen2017regional}. Additionally, semi-arid regions play a crucial role in influencing the global carbon cycle \citep{poulter2014contribution}. To address this imbalance, only the most recent data from the past three years for each site was utilized to ensure a more equitable representation of each site during the training of the transformer model. This approach resulted in a total of 4576 samples over the 12-month period. The distribution of samples for training and validation is detailed in Table \ref{tab:chap6_nosamples}. \par
+\begin{table}[!ht]
+    \centering
+    \caption{Number of samples for training and validation}
+    \begin{tabular}{ccc}
+        \hline
+        \multirow{2}{*}{Month} & \multicolumn{2}{c}{Number of samples} \\ \cline{2-3}
+        ~ & Training & Validation \\ \hline
+        January & 363 & 68 \\ 
+        February & 377 & 72 \\ 
+        March & 392 & 77 \\ 
+        April & 385 & 75 \\ 
+        May & 408 & 88 \\ 
+        June & 372 & 66 \\ 
+        July & 379 & 66 \\ 
+        August & 365 & 67 \\ 
+        September & 387 & 68 \\ 
+        October & 406 & 71 \\ 
+        November & 385 & 75 \\ 
+        December & 357 & 62 \\ \hline
+    \end{tabular}
+    \label{tab:chap6_nosamples}
+\end{table}
 \subsection{Validation}
-To evaluate our product's quality, we performed a comparative analysis against other remote sensing-based products, including FLUXCOM \citep{jung2019fluxcom}, NIES \citep{zeng2020global}, and MetaFlux \citep{nathaniel2023metaflux}. Initially, we assessed the correlation of monthly FLUXNET 2015 GPP and RECO values with the corresponding data from these products at the FLUXNET sites. Subsequently, we conducted a seasonality examination using FLUXNET 2015 and Solar-Induced Fluorescence (SIF) from CSIF \citep{zhang2018global} (accessible at https://fgshare.com/articles/dataset/CSIF/6387494) and TROPOMI SIF \citep{kohler2018global} (retrievable from ftp://fluo.gps.caltech.edu/data/tropomi/). Finally, we examined the interannual trends and variations of our products in comparison to FLUXCOM, NIES, and MetaFlux. To assess interannual trends, we computed the annual global mean GPP and RECO, scaling the global average fluxes with the total global land area (122.4 million $km^{2}$) from \citep{friedl2010modis}, as recommended by \citep{jung2020scaling} for consistent global area representation across all products. We utilized the slope of the linear regression line and p-value to indicate the annual trends and statistical significance of the trends in GPP and RECO. For the assessment of interannual variations, we calculated the Interannual Variability (IAV) at the pixel level by determining the standard deviation divided by the mean of annual fluxes. \par
+To evaluate our product's quality, we performed a comparative analysis against other remote sensing-based products, including FLUXCOM \citep{jung2019fluxcom}, NIES \citep{zeng2020global}, and MetaFlux \citep{nathaniel2023metaflux}. Initially, we assessed the correlation of monthly FLUXNET 2015 GPP and RECO values with the corresponding data from these products at the FLUXNET sites. Additionally, we examined the seasonality trends in our data across climate zones in comparison to FLUXNET 2015. \par
+Subsequently, we conducted a seasonality examination using Solar-Induced Fluorescence (SIF) from CSIF \citep{zhang2018global} (accessible at https://fgshare.com/articles/dataset/CSIF/6387494) and TROPOMI SIF \citep{kohler2018global} (retrievable from ftp://fluo.gps.caltech.edu/data/tropomi/).\par
+
+Ultimately, we examined the interannual trends and variations, as well as the seasonal and latitudinal patterns of our outputs in comparison with FLUXCOM, NIES, and MetaFlux. To evaluate interannual trends, we computed the annual global mean Gross Primary Productivity (GPP) and Ecosystem Respiration (RECO), scaling the global average fluxes using the total global land area of 122.4 million square kilometers from \citep{friedl2010modis}, as recommended by \citep{jung2020scaling} to ensure consistent global area representation across all products. The annual trends and their statistical significance in GPP and RECO were indicated by the slope of the linear regression line and the corresponding p-value. For the assessment of interannual variations, we determined the Interannual Variability (IAV) at the pixel level by calculating the standard deviation divided by the mean of annual fluxes.\par
+
 
 \section{Data records}
 \begin{figure}[p]
@@ -58,8 +85,9 @@ To evaluate our product's quality, we performed a comparative analysis against o
 \section{Technical validation}
 \subsection{Validation with FLUXNET 2015}
 \subsubsection*{Site-level validation}
-As depicted in Figures \ref{fig:chap6_fig3a} and \ref{fig:chap6_fig3b}, our product exhibits the highest correlation with FLUXNET 2015 for both GPP and RECO data ($R = 0.883$ for GPP and $R = 0.86$ for RECO), whereas MetaFlux shows the lowest correlation with FLUXNET 2015 ($R = 0.651$ for GPP and $R = 0.613$ for RECO). NIES and FLUXCOM also demonstrate strong correlations with the groundtruth data, achieving ($R > 0.8$ for GPP and $R > 0.78$ for RECO). \par
-\begin{figure}[tbh!]
+We utilized the Pearson Correlation Coefficient (r) and Root Mean Square Error (RMSE) to assess the quality of our products in comparison to FLUXNET 2015 observations. As depicted in Figures \ref{fig:chap6_fig3a} and \ref{fig:chap6_fig3b}, our product demonstrates the highest correlation and the lowest RMSE with FLUXNET 2015 for both Gross Primary Productivity (GPP) and Ecosystem Respiration (RECO) data ($R = 0.894, RMSE = 1.706$ for GPP and $R = 0.866, RMSE = 1.244$ for RECO). In contrast, MetaFlux shows the lowest correlation with FLUXNET 2015 ($R = 0.652, RMSE = 3.135$ for GPP and $R = 0.612, RMSE = 2.046$ for RECO). NIES and FLUXCOM also exhibit strong correlations with the ground truth data, achieving $R/RMSE: 0.857/1.981$ (NIES), $0.819/2.32$ (FLUXCOM) for GPP and $R/RMSE: 0.795/1.511$ (NIES), $0.792/1.627$ (FLUXCOM) for RECO. \par
+
+\begin{figure}[p]
     \centering
     \begin{subfigure}{\textwidth}
       \centering
@@ -78,7 +106,33 @@ As depicted in Figures \ref{fig:chap6_fig3a} and \ref{fig:chap6_fig3b}, our prod
     \label{fig:chap6_fig3}
 \end{figure}
 \subsubsection*{Seasonality validation}
-We also examined the seasonal trend with the FLUXNET 2015 data. We calculate the monthly mean fluxes for 
+We analyzed the seasonal trend using FLUXNET 2015 data, calculating monthly mean values across climate zones, as depicted in Figure \ref{fig:chap6_fig4} and Table \ref{tab}. In arid regions, FluxFormer, FluxCom, and NIES exhibited high correlation ($R > 0.9$) with FLUXNET for both GPP and RECO. However, MetaFlux showed lower correlation with $R=0.48$ for GPP and $R=0.66$ for RECO in arid regions. For temperate and cold regions, all satellite-based products (FluxFormer, FLUXCOM, NIES, and MetaFlux) demonstrated high correlations ($R>0.97$) with FLUXNET 2015 GPP and RECO. \par
+
+\begin{table}[!ht]
+    \centering
+    \caption{Pearson correlation of seasonal trend with FLUXNET 2015}
+    \begin{tabular}{ccccc}
+        \hline
+        Climate groups & FluxFormer & FluxCom & NIES & MetaFlux  \\ \hline
+        \multicolumn{5}{c}{GPP}   \\ \hline 
+        Arid & 0.91 & 0.91 & 0.94 & 0.48  \\ \hline 
+        Temperate & 0.99 & 0.99 & 0.97 & 0.97  \\ \hline 
+        Cold & 1 & 0.99 & 1 & 0.99  \\ \hline 
+        Trop. SVN & 0.99 & 0.99 & 0.94 & 0.97  \\ \hline 
+        Trop. MS & \textbf{0.84} & 0.04 & 0.58 & -0.05  \\ \hline 
+        Trop. RF & 0.68 & 0.6 & 0.71 & 0.41  \\ \hline 
+        \multicolumn{5}{c}{RECO}   \\ \hline 
+        Arid & 0.94 & 0.92 & 0.95 & 0.66  \\ \hline 
+        Temperate & 0.98 & 0.99 & 0.99 & 0.99  \\ \hline 
+        Cold & 1 & 0.99 & 1 & 1  \\ \hline 
+        Trop. SVN & 0.99 & 0.98 & 0.92 & 0.91  \\ \hline 
+        Trop. MS & \textbf{0.88} & 0.51 & 0.29 & 0  \\ \hline 
+        Trop. RF & \textbf{0.68} & 0.37 & 0.5 & 0.47  \\ \hline 
+    \end{tabular}
+    \label{tab:chap6_seasonr}
+\end{table}
+In the tropical region, we partitioned the area into tropical savanna (Trop. SVN), tropical monsoon (Trop. MS), and tropical rainforest (Trop. RF). In Trop. SVN, all satellite-based products displayed a high correlation with FLUXNET 2015 for both GPP and RECO. Conversely, for Trop. MS, our data exhibited the highest correlation at $R=0.84$, while NIES data showed a moderate correlation ($R=0.58$). FLUXCOM and MetaFlux demonstrated no correlation with FLUXNET 2015 for GPP, with $R<0.1$. Regarding RECO in Trop. SVN, our data maintained the highest correlation with the seasonal trend of the ground truth, whereas other products showed lower correlation (FLUXCOM: $R=0.51$, NIES: $R=0.29$) or no correlation with the ground truth (MetaFlux: $R=0$). In the Trop. RF area, our data exhibited the second-highest correlation with GPP seasonal trend ($R=0.68$) and the highest correlation with RECO seasonal trend ($R=0.68$).\par
+Overall, our data demonstrates a robust correlation in arid, temperate, cold, and Trop. SVN regions, surpassing $R> 0.9$ for both GPP and RECO. Specifically, in Trop. MS, our data exhibits the highest correlation, reaching $R=0.84$ for GPP and $R=0.88$ for RECO. In the Trop. RF region, our data exhibits the second-highest correlation with the ground truth GPP seasonal trend ($R=0.68$) and the highest correlation with the ground truth RECO seasonal trend ($R=0.68$) among the selected satellite-based products. \par
 \begin{figure}[p]
     \centering
     \begin{subfigure}{\textwidth}
@@ -99,7 +153,9 @@ We also examined the seasonal trend with the FLUXNET 2015 data. We calculate the
 \end{figure}
 
 \subsection{Validation with SIF}
+SIF serves as a reliable proxy and has seen increased usage for estimating GPP \citep{norton2019estimating, liu2020improving, bai2022estimation}. To expand the seasonality validation, we incorporated independent products, namely CSIF and TROPOMI SIF. We examined the pixel-level correlation distribution of FluxFormer and selected satellite-based products with the seasonal trend of CSIF from 2000 to 2019 and TROPOMI SIF from 2018 to 2019, as TROPOMI data is available only from 2018 onwards.\par
 
+The results are illustrated in Figure \ref{fig:chap6_fig5a} and Figure \ref{fig:chap6_fig5b}. We observed that our data exhibits lower correlation with CSIF and TROPOMI SIF in tropical regions (Central and South America, West and Central Africa, and Southeast Asia) and arid regions compared to FLUXCOM, NIES, and MetaFlux. This finding aligns with \citep{sanders2016spaceborne}, indicating weaker seasonality in these regions.\par
 \begin{figure}[p]
     \centering
     \begin{subfigure}{\textwidth}
@@ -120,29 +176,12 @@ We also examined the seasonal trend with the FLUXNET 2015 data. We calculate the
 \end{figure}
 
 
-\subsubsection*{Validation with other satellite-based products}
-
-\begin{figure}[p]
-    \centering
-    \begin{subfigure}{\textwidth}
-      \centering
-      \includegraphics[width=.8\textwidth]{figs/chap6/seasonal_inter_prods_GPP.png}
-      \caption{GPP}
-      \label{fig:chap6_fig6a}
-    \end{subfigure}
-
-    \begin{subfigure}{\textwidth}
-      \centering
-      \includegraphics[width=.8\textwidth]{figs/chap6/seasonal_inter_prods_RECO.png}
-      \caption{RECO}
-      \label{fig:chap6_fig6b}
-    \end{subfigure}
-    \caption[Seasonality validation with FLUXNET 2015]{Seasonality validation with FLUXNET 2015: GPP (a) RECO (b)}
-    \label{fig:chap6_fig6}
-\end{figure}
-
 \subsection{Interannual variations between products}
+\subsubsection*{Interannual trend}
 
+The interannual trends of FluxFormer and other products (FLUXCOM, NIES, and MetaFlux) are illustrated in Figure \ref{fig:chap6_fig7a}. We examined the global annual time series from 2001 to 2019 to analyze the trend in Gross Primary Productivity (GPP). Our dataset exhibits the highest positive trend, with a growth rate of 0.45 PgC/year. The second-highest trend is observed in the NIES global annual time series, with a growth rate of 0.32 PgC/year. MetaFlux shows a small increasing trend, albeit with an insignificant p-value of 0.08. On the other hand, FLUXCOM indicates a small negative trend, with a reduction rate of 0.04 PgC per year.\par
+
+Our long-term GPP trend aligns with the expected increase due to the CO2 fertilization effect, anticipated to enhance the land carbon sink \citep{piao2020characteristics, guo2023estimating, yang2022divergent}.\par
 \begin{figure}[p]
     \centering
     \begin{subfigure}{\textwidth}
@@ -162,6 +201,10 @@ We also examined the seasonal trend with the FLUXNET 2015 data. We calculate the
     \label{fig:chap6_fig7}
 \end{figure}
 
+We also inspect the latitudinal distribution of GPP and RECO as depicted in Figure \ref{fig:chap6_fig7b}. All four products exhibit a gradual increase in both GPP and RECO values from cold climate regions to warm and humid climates in temperate and tropical regions. \par
+\subsubsection*{Interannual variations}
+Finally, we assess the interannual variations of Gross Primary Productivity (GPP) and Ecosystem Respiration (RECO), as illustrated in Figures \ref{fig:chap6_fig8a} and \ref{fig:chap6_fig8b}, respectively. We observe that our data exhibits lower interannual variability than NIES in desert regions, including Australia, Central Asia, Central America, and South America. We posit that our data may be more reasonable, considering that in desert areas, GPP is expected to be extremely low \citep{hadley1981productivity}. Additionally, our dataset demonstrates smaller interannual variability than NIES in the northern parts of Eurasia and North America. \par
+Our dataset displays greater interannual variability compared to FLUXCOM and MetaFlux. This difference could be attributed to the use of distinct remote sensing data sources for upscaling carbon fluxes. Specifically, we employed LAI and FAPAR from SPOT/VEGETATION and PROBA-V, which aligns with the approach described in \citep{zeng2020global}. In contrast, FLUXCOM and MetaFlux utilize input remote sensing data sourced from MODIS \citep{jung2019fluxcom, nathaniel2023metaflux}. \par
 \begin{figure}[p]
     \centering
     \begin{subfigure}{\textwidth}
@@ -180,3 +223,7 @@ We also examined the seasonal trend with the FLUXNET 2015 data. We calculate the
     \caption{Interannual variations: GPP (a) RECO (b)}
     \label{fig:chap6_fig8}
 \end{figure}
+\section{Usage notes}
+In this chapter, we present our work on upscaling global gross primary production and ecosystem respiration using multivariate timeseries transformer \citep{zerveas2021transformer} and new plant functional types data \citep{harper202229}. We provide the monthly global GPP and RECO data at the spatial resolution of 0.25° × 0.25° from 1990 to 2019. \par
+
+In this version, we have  The data is permantly 
