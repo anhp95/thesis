@@ -1,2 +1,62 @@
 \chapter{Introduction}
- \section{Background}
+\renewcommand{\headrulewidth}{0pt}
+\lhead[\thepage]{\leftmark}
+\rhead[\leftmark]{\thepage}
+\cfoot[]{}
+
+ \section{Context}
+
+ Air pollutants, such as nitrogen oxides, carbon monoxide, ozone, and greenhouse gases like carbon dioxide and methane, represent chemical elements in the atmosphere that significantly impact human health \citep{kampa2008human} and contribute to global warming and climate change \citep{haines2006climate}. Moreover, they are integral components for fostering sustainable and economically viable development. \par
+
+Effectively mitigating the impact of climate change requires a simultaneous reduction in both air pollution and greenhouse gas emissions (GHGs) through the implementation of future policies. The development of impactful strategies to address air pollution is intricately tied to the specific circumstances of each locality, emphasizing the necessity for context-specific approaches. Conversely, the success of GHG reduction policies relies on a concerted global effort \citep{keohane2011regime}.\par
+
+In the field of air pollution research, the COVID-19 lockdown is viewed as a valuable precedent for shaping future air pollution policies. While the primary objective of the lockdown was not explicitly to address air pollution and greenhouse gas emissions, the adoption of these measures provides valuable insights for atmospheric modeling. This experience imparts practical knowledge and firsthand lessons that can contribute to the development of more efficient strategies for mitigating air pollution and curbing greenhouse gas emissions in the future \citep{grange2021covid}. \par
+
+For zero-carbon emission modeling research, the most critical measure for mitigating the impact of climate change involves a significant reduction in greenhouse gas (GHG) emissions. One highly effective avenue to achieve this reduction is by enhancing the capacity of terrestrial carbon sequestration, primarily through the preservation and restoration of forests. Notably, between 2010 and 2019, the terrestrial CO2 sink is estimated to offset fossil CO2 emissions by 35\%, surpassing the ocean, which is projected to remove 26\% of fossil-fuel-derived CO2 \citep{friedlingstein2020global, wang2022disentangling}. The substantial global carbon flux, known as terrestrial gross primary production (GPP), plays a substantial role in diminishing anthropogenic CO2 emissions \citep{beer2010terrestrial}. This comprehensive approach not only aids in reducing GHG levels but also fosters biodiversity and fortifies ecosystem resilience in the face of climate change. \par
+
+despite global effor but the monitoring should be considered at both global and local level. local level for appropirate acts by local goverments.
+
+\section{Problem statement}
+Based on the context of the study described above, this research focuses on two main topics. The first topic directly relates to lessons learned from the impact of extreme events, such as the effects of the COVID-19 lockdown on future air pollution policies. The second issue pertains to existing challenges in accurately quantifying the capacity of terrestrial ecosystem carbon flux variables, such as Gross Primary Production (GPP). \par
+
+Concerning the first topic, spanning the period from 2019 to 2022, the world has witnessed two significant extreme events that have profoundly influenced human anthropogenic activities both at local and, to some extent, global levels. The initial event was the COVID-19 lockdown in 2020, followed by the ongoing armed conflict between Russia and Ukraine. These occurrences have led to expected alterations in air pollution, environmental factors, and greenhouse gas emissions. Despite numerous prior studies exploring the impact of the COVID-19 lockdown in various countries, there is considerable variability in results across study areas, as well as in the adopted analytical approaches \citep{shi2021abrupt}. At the time of our research, to the best of our knowledge, there were limited studies that had thoroughly and comprehensively examined the impact of the COVID-19 lockdown on air pollution in metropolitan areas of Japan. Additionally, there was a scarcity of studies investigating the combined impact of the COVID-19 lockdown and the armed conflict on air pollution in Ukraine, along with the valuable lessons learned for future policy considerations.\par
+
+Regarding the second topic, the estimation of Gross Primary Production (GPP) involves a range of methods, including the utilization of dynamic global vegetation models (DGVMs) such as those applied in the TRENDY project \citep{sitch2015recent, le2018global}, as well as upscaling from measurements acquired through eddy covariance (EC) flux towers and satellite observations \citep{jung2019fluxcom, zeng2020global}. However, all these approaches rely on categorizations known as plant functional types (PFTs) to gauge ecosystem productivity \citep{poulter2011plant, poulter2015plant, lin2021improved, guo2023estimating, yan2023integrating}. Discrepancies in PFT maps can introduce significant uncertainties into GPP estimations, as well as other climate-relevant variables, at both regional and global scales \citep{poulter2011plant}. In the tropical region, specifically, challenges arise due to the sparse distribution of EC sites, the high species richness of trees, and the complex vertical structure of tropical rainforests \citep{montgomery2001forest}, making it challenging to accurately quantify the seasonality of carbon fluxes \citep{xu2015satellite}. Recently, there has been a growing adoption of timeseries (TS) foundation models that employ a transformer-inspired architecture for addressing timeseries problems and representation learning. Noteworthy examples include the MVTS Transformer \citep{zerveas2021transformer}, Informer \citep{zhou2021informer}, Autoformer \citep{wu2021autoformer}, and Fedformer \citep{zhou2022fedformer}. The integration of the Transformer architecture is expected to enhance the modeling of seasonality based on the timeseries representation. However, as far as our knowledge extends, its application in the task of upscaling global carbon fluxes remains limited. \par
+\section{Research questions}
+Based the prior problem statements, I am seeking answers to the following questions:
+
+\textbf{For Part 1: Evaluation of extreme Events on Regional Air Quality and Lessons Learned:}
+\begin{itemize}
+    \item How did the COVID-19 lockdown and the armed conflict impact air quality in Ukraine, and what lessons can be derived for future policies?
+    \item In what ways did the COVID-19 lockdown influence air quality in Japan, and what lessons can be learned for future policy considerations?
+\end{itemize}
+
+\textbf{For Part 2: Improved Quantification of Global Terrestrial Carbon Fluxes:}
+\begin{itemize}
+    \item What methodologies can be employed to map Plant Functional Types (PFTs) in data-sparse regions?
+    \item Can the utilization of updated PFT maps and models based on Transformer architecture enhance the accuracy of global carbon flux estimates?
+    \item What effective strategies can be implemented for monitoring fossil fuel-derived greenhouse gas emissions and global carbon sequestration from forests, along with other pertinent considerations?
+\end{itemize}
+
+\section{Outline of the thesis and scope}
+
+The thesis is structured into two parts and eight chapters, as depicted in Figure \ref{fig:chap1_fig1}. Chapter 2 provides the background on air pollution, greenhouse gases, and explores the interrelationship between these factors themself and with Sustainable Development Goals (SDGs). \par
+\begin{figure}[tbh!]
+    \centering
+    \includegraphics[width=\textwidth]{figs/chap1/outline.png}
+    \caption{Outline of this thesis}
+    \label{fig:chap1_fig1}
+\end{figure}
+\subsection*{Part 1: Air pollution}
+
+In Chapter 3, I discuss the examination of fluctuations in nitrogen dioxide (NO2) levels in Ukraine during two noteworthy periods: the COVID-19 pandemic lockdown in 2020 and the armed conflict with Russia in 2022.\par
+
+In Chapter 4, I provide an assessment of the impact of alterations in anthropogenic activities during the COVID-19 pandemic (spanning from April 7 to December 31) on NO2, O3, CO, and CH4 levels in metropolitan areas of Japan in 2020. \par
+\subsection*{Part 2: Greenhouse gas}
+In Chapter 5, I introduced an approach to monitor forest utilization towards Sustainable Development Goals (SDGs), focusing on aspects such as Plant Functional Types (PFTs) and forest age in data-scarce regions of Japan. \par
+
+In Chapter 6, I assess the effectiveness of utilizing timeseries representation, particularly leveraging recently updated Plant Functional Types (PFTs) and a model based on Transformer architecture, to predict trends and seasonality in global carbon fluxes. \par
+
+In Chapter 7, I designed a digital earth platform that facilitates the visualization and support of CO2 monitoring and the carbon neutrality roadmap at the municipality level in Japan. \par
+
+Finally, in Chapter 8, I summarize the key findings and contributions of the study and discuss future prospects.\par
