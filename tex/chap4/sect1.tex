@@ -1,11 +1,11 @@
-\chapter{Plant functional types mapping} \label{chap5}
+\section{Plant functional types mapping} \label{chap5}
 We proposed a combined machine learning approach with a deep convolutional neural network (CNN) to monitor forest utilization toward Sustainable Development Goals (SDGs) for data-scarce regions. First, we employed the Random Forest (RF) classifier using Google Earth Engine (GEE) for forest mapping. Then, we designed a deep CNN architecture that works for PFTs/age mapping from coarse and polygonal ground-truth data. The proposed network has U-shape and comprises 3D Atrous Convolutions. The model was optimized by a weighted cross-entropy loss function. We trained the model with times-series Sentinel 1, 2, and Digital Elevation Model (DEM) data with sparse annotations. Our proposed models achieved 94.5\% overall accuracy (OA) for forest mapping, 77.80\% (OA) for PFTs, and 81.74\% (OA) for forest age classification, respectively in Ena city, Japan. The outcome of our study indicates the potential of remote sensing and machine learning in monitoring forest development, conservation, and utilization toward SDGs from coarse ground-truth data. Our source code for the implementation is available at: \url{https://github.com/anhp95/forest_attr_segment}
-\renewcommand{\headrulewidth}{0pt}
-\lhead[\thepage]{\leftmark}
-\rhead[\leftmark]{\thepage}
-\cfoot[]{}
+% \renewcommand{\headrulewidth}{0pt}
+% \lhead[\thepage]{\leftmark}
+% \rhead[\leftmark]{\thepage}
+% \cfoot[]{}
 
-\section{Introduction}
+\subsection{Introduction}
 The pivotal role of forests in advancing Sustainable Development Goal 15 (SDG15) and addressing global climate change is widely recognized. Leveraging the capabilities of remote sensing technology and cutting-edge machine learning algorithms, the mapping of forested areas, along with the identification of PFTs and forest age, emerges as a valuable contribution to the monitoring of SDG-related issues, encompassing indicators such as 15.1.1, 15.2.1, and 15.4.2. \par
 
 While forest mapping is a familiar task in land-cover/land-use classification, generating a detailed map specifying plant functional types (PFTs) and forest age introduces heightened complexity. Previous studies focusing on PFTs/age classification often relied on either high-resolution input data or ground-truth information at the point level, as evidenced in the works of \citep{schiefer2020mapping,la2021multi, lee2016individual}. However, these resources are known to be expensive, time-consuming to collect, and infrequently available in specific regions, particularly in developing areas. In response to these challenges, this chapter introduces a methodology aimed at monitoring forest areas, PFTs, and forest age, utilizing coarse annotations and freely available remote sensing data. \par
@@ -14,8 +14,8 @@ The approach begins with the application of a Random Forest (RF) classifier to c
 
 The structure of this chapter unfolds as follows: Section \ref{chap5_data} provides insights into the study area and the data utilized in the study. Section \ref{chap5_method} delves into the overall methodology employed, and the experimental results within the study area are expounded upon in Section \ref{chap5_result}. Finally, Section \ref{chap5_conclusion} encapsulates the conclusion of the chapter, highlighting avenues for future research and development. \par
 
-\section{Data} \label{chap5_data}
-\subsection{Study area}
+\subsection{Data} \label{chap5_data}
+\subsubsection*{Study area}
 The focal point of our investigation is Ena city (see Figure \ref{fig:chap5_studyarea}), strategically positioned in the southeastern expanse of Gifu prefecture, nestled within the heart of Japan. Encompassing an expansive total area of approximately 504 square kilometers, the city boasts an elevation of 282 meters, contributing to its diverse topography. The climate exhibits a noteworthy annual temperature range, spanning from a minimum of 2 °C to a maximum of around 26.4 °C, showcasing the dynamic climatic conditions that characterize the region. \par
 
 \begin{figure}[tbh!]
@@ -27,7 +27,7 @@ The focal point of our investigation is Ena city (see Figure \ref{fig:chap5_stud
 
 A compelling facet of Ena city lies in its rich forest cover, a significant portion of which, as reported by local government statistics, comprises artificial forests, constituting 60\% of the total forested area. The dominant species within these artificial forests is Chamaecyparis obtusa. This coniferous species plays a pivotal role in the city's ecosystem, serving multifaceted purposes such as timber production, prevention of water-related disasters, and the sequestration of carbon dioxide (CO\textsubscript{2}). Notably, the artificial forest, largely populated by Chamaecyparis obtusa, underscores its significance as a valuable resource for sustainable timber harvesting, acting as a buffer against potential water-related calamities, and contributing to the mitigation of greenhouse gas emissions through effective CO\textsubscript{2} sequestration. This intricate interplay of environmental elements highlights the intricate web of ecological services provided by Ena city's forests, emphasizing their integral role in the broader context of regional sustainability and resilience. \par
 
-\subsection{Data collection}
+\subsubsection*{Data collection}
 In our forest mapping approach, the creation of a training set involved a random selection of 750 forest and 250 non-forest points, alongside a validation set comprising 300 forest and 100 non-forest points. This selection was based on the 2016 land-use map provided by the National Land Information Portal. Transitioning to the task of mapping PFTs and forest age, our labeled data was sourced from the same repository. The ground-truth information, represented as coarse polygons, delineates mixed-species zones, with each polygon annotated according to the most dominant PFTs in that particular area. Notably, this ground-truth data is restricted to national forest areas, presenting a limitation in its coverage. To address this constraint, given the relatively small portion (11\%) of national forest data available for Ena city, we supplemented our dataset with the annotations collected in 2018 from Gifu prefecture to enhance model training (\ref{fig:chap5_gifu_gt}). \par
 
 
@@ -60,7 +60,7 @@ Our utilization of remote sensing resources encompassed Sentinel 1A, Sentinel 2 
 
 In the subsequent sections, we describe the specifics of acquisition times for Sentinel 1 and Sentinel 2, pertaining to the segmentation of PFTs and forest age, as well as forest mapping. Recognizing the dynamic nature of forest ecosystems and evolving land-use patterns, the temporal dimension of data acquisition plays a crucial role in maintaining the relevance and accuracy of our models. \par
 
-\section{Methodology} \label{chap5_method}
+\subsection{Methodology} \label{chap5_method}
 The proposed workflow is depicted in Figure \ref{fig:chap5_workflow}. Initially, the Sentinel 1 data was obtained directly from Google Earth Engine (GEE). Each pixel represents the backscatter coefficient and undergoes a series of preprocessing steps, including the application of an orbit file, removal of GRD border noise, thermal noise elimination, radiometric calibration, and terrain correction. The Sentinel 2 data was mosaicked and monthly averaged to address clouds and missing values, also leveraging GEE. The training and validation sets for forest mapping, Plant Functional Types (PFTs), and forest age segmentation were extracted from the satellite images. Subsequent sections provide a detailed illustration of how these acquired sets are utilized to train the machine learning models. \par
 
 
@@ -125,7 +125,7 @@ Our deep learning model, implemented in PyTorch, underwent training on an NVIDIA
 
 In the context of forest mapping, our approach exclusively employed Sentinel 2 data from June 2018, complemented by 10-meter-resampled DEM data retrieved from GEE. This choice was guided by our observation that June data exhibits minimal slope effects, particularly in regions characterized by higher elevations. The utilization of GEE's API facilitated a seamless implementation, significantly boosting computational efficiency throughout the mapping stages. \par
 
-\section{Experimental results} \label{chap5_result}
+\subsection{Experimental results} \label{chap5_result}
 For forest mapping, the model accomplished a 94.5\% Overall Accuracy (OA) for the classification of forest and non-forest areas. The resulting forest map, generated by the model, is displayed in Figure \ref{fig:chap5_fig3}. Upon scrutinizing the high-resolution satellite image from Google Earth alongside the overlaid inferred forest map, it becomes evident that the RF model has proficiently and accurately classified the forest pixels using information derived from Sentinel 2 and DEM data. \par
 
 \begin{table}[tbh!]
@@ -221,5 +221,5 @@ The visual representation of the deduced PFTs map is presented in Figure \ref{fi
 
 Implementing the proposed methodology, we have expanded our mapping efforts to encompass additional cities in Gifu prefecture, namely Nakatsugawa, Mizunami, Toki, and Tajimi, as depicted in Figure \ref{fig:chap5_fig8}. Our approach involved the initial application of the proposed network, followed by the utilization of a straightforward reclassification method. This process enabled the generation of a high-resolution map of Plant Functional Types (PFTs), derived from the pseudo-label output produced by the proposed model.\par
 
-\section{Conclusion} \label{chap5_conclusion}
+\subsection{Conclusion} \label{chap5_conclusion}
 In this study, by utilizing remote sensing, RF classifier, and deep learning, the approach for forest-related SDG issues monitoring in data-scarce regions has been proposed. We examined the approach in Ena City, Japan and achieved promising results in forest mapping, and PFTs and forest age mapping. Our proposed model outperforms the RF, 2D/3D UNET in PFTs and forest age segmentation with coarse-polygonal ground-truth data. The outcome of this study could be served as an input for further steps to produce high-resolution land cover map for the data-scarce regions. In the future, we will investigate the postprocessing method to improve the map quality from coarse annotations.
