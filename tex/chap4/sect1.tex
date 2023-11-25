@@ -1,9 +1,5 @@
-\section{Plant functional types mapping} \label{chap5}
+\section{Local plant functional types mapping} \label{chap4_s1}
 We proposed a combined machine learning approach with a deep convolutional neural network (CNN) to monitor forest utilization toward Sustainable Development Goals (SDGs) for data-scarce regions. First, we employed the Random Forest (RF) classifier using Google Earth Engine (GEE) for forest mapping. Then, we designed a deep CNN architecture that works for PFTs/age mapping from coarse and polygonal ground-truth data. The proposed network has U-shape and comprises 3D Atrous Convolutions. The model was optimized by a weighted cross-entropy loss function. We trained the model with times-series Sentinel 1, 2, and Digital Elevation Model (DEM) data with sparse annotations. Our proposed models achieved 94.5\% overall accuracy (OA) for forest mapping, 77.80\% (OA) for PFTs, and 81.74\% (OA) for forest age classification, respectively in Ena city, Japan. The outcome of our study indicates the potential of remote sensing and machine learning in monitoring forest development, conservation, and utilization toward SDGs from coarse ground-truth data. Our source code for the implementation is available at: \url{https://github.com/anhp95/forest_attr_segment}
-% \renewcommand{\headrulewidth}{0pt}
-% \lhead[\thepage]{\leftmark}
-% \rhead[\leftmark]{\thepage}
-% \cfoot[]{}
 
 \subsection{Introduction}
 The pivotal role of forests in advancing Sustainable Development Goal 15 (SDG15) and addressing global climate change is widely recognized. Leveraging the capabilities of remote sensing technology and cutting-edge machine learning algorithms, the mapping of forested areas, along with the identification of PFTs and forest age, emerges as a valuable contribution to the monitoring of SDG-related issues, encompassing indicators such as 15.1.1, 15.2.1, and 15.4.2. \par
