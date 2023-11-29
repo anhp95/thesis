@@ -11,7 +11,7 @@ The approach begins with the application of a Random Forest (RF) classifier to c
 The structure of this chapter unfolds as follows: Section \ref{chap5_data} provides insights into the study area and the data utilized in the study. Section \ref{chap5_method} delves into the overall methodology employed, and the experimental results within the study area are expounded upon in Section \ref{chap5_result}. Finally, Section \ref{chap5_conclusion} encapsulates the conclusion of the chapter, highlighting avenues for future research and development. \par
 
 \subsection{Data} \label{chap5_data}
-\subsubsection*{Study area}
+\subsubsection{Study area}
 The focal point of our investigation is Ena city (see Figure \ref{fig:chap5_studyarea}), strategically positioned in the southeastern expanse of Gifu prefecture, nestled within the heart of Japan. Encompassing an expansive total area of approximately 504 square kilometers, the city boasts an elevation of 282 meters, contributing to its diverse topography. The climate exhibits a noteworthy annual temperature range, spanning from a minimum of 2 °C to a maximum of around 26.4 °C, showcasing the dynamic climatic conditions that characterize the region. \par
 
 \begin{figure}[tbh!]
@@ -23,7 +23,7 @@ The focal point of our investigation is Ena city (see Figure \ref{fig:chap5_stud
 
 A compelling facet of Ena city lies in its rich forest cover, a significant portion of which, as reported by local government statistics, comprises artificial forests, constituting 60\% of the total forested area. The dominant species within these artificial forests is Chamaecyparis obtusa. This coniferous species plays a pivotal role in the city's ecosystem, serving multifaceted purposes such as timber production, prevention of water-related disasters, and the sequestration of carbon dioxide (CO\textsubscript{2}). Notably, the artificial forest, largely populated by Chamaecyparis obtusa, underscores its significance as a valuable resource for sustainable timber harvesting, acting as a buffer against potential water-related calamities, and contributing to the mitigation of greenhouse gas emissions through effective CO\textsubscript{2} sequestration. This intricate interplay of environmental elements highlights the intricate web of ecological services provided by Ena city's forests, emphasizing their integral role in the broader context of regional sustainability and resilience. \par
 
-\subsubsection*{Data collection}
+\subsubsection{Data collection}
 In our forest mapping approach, the creation of a training set involved a random selection of 750 forest and 250 non-forest points, alongside a validation set comprising 300 forest and 100 non-forest points. This selection was based on the 2016 land-use map provided by the National Land Information Portal. Transitioning to the task of mapping PFTs and forest age, our labeled data was sourced from the same repository. The ground-truth information, represented as coarse polygons, delineates mixed-species zones, with each polygon annotated according to the most dominant PFTs in that particular area. Notably, this ground-truth data is restricted to national forest areas, presenting a limitation in its coverage. To address this constraint, given the relatively small portion (11\%) of national forest data available for Ena city, we supplemented our dataset with the annotations collected in 2018 from Gifu prefecture to enhance model training (\ref{fig:chap5_gifu_gt}). \par
 
 
@@ -79,9 +79,9 @@ The proposed workflow is depicted in Figure \ref{fig:chap5_workflow}. Initially,
     \label{fig:chap5_workflow_model}
 \end{figure}
 
-\subsubsection*{Forest mapping}
+\subsubsection{Forest mapping}
 To expedite the forest mapping process, we implemented the Random Forest (RF) model, a widely recognized ensemble machine learning classifier for land-cover and land-use classification \citep{gislason2006random}. The utilization of RF is well-founded not only due to its popularity but also its demonstrated effectiveness in land-cover mapping, particularly when dealing with low-resolution ground-truth data \citep{robinson2021global}. This machine learning approach leverages the strength of ensemble techniques, combining multiple decision trees to enhance accuracy and robustness in the classification of forested areas. The choice of RF aligns with its established success in handling land-cover mapping challenges, making it an efficient solution for our specific context. \par
-\subsubsection*{PFTs\slash forest age mapping}
+\subsubsection{PFTs\slash forest age mapping}
 
 While Random Forest (RF) exhibits commendable performance with low-resolution labeled data, it falls short of achieving superior results compared to our proposed deep learning model, as indicated in Table \ref{tab:chap5_tab2}. The architecture of our proposed network draws inspiration from the UNET architecture \citep{ronneberger2015u} but is intentionally shallower, as depicted in Figure \ref{fig:chap5_model}. To enhance the model's semantic segmentation capabilities, we incorporated 3D Atrous Convolution (3DAConv), a technique proven effective in handling semantic segmentation tasks with coarse annotations \citep{chen2017rethinking}. Atrous convolution, initially introduced in the DeepLab architecture \citep{chen2017deeplab}, involves convolution with upsampled filters. \par
 
@@ -112,7 +112,7 @@ The input data is structured with dimensions 13×4×32×32, representing the num
 
 Given the imbalanced nature of the training set, as evident in Table \ref{tab:chap5_tab1}, we fine-tuned the model by incorporating a weighted cross-entropy loss function. Specifically, distinct weights were assigned for PFTs and age categories, as outlined in Table \ref{tab:chap5_tab1}.
 
-\subsubsection*{Experiment design and settings}
+\subsubsection{Experiment design and settings}
 To assess the performance of the proposed network against Random Forest (RF), 2D UNET, and 3D UNET, we devised an experiment for Plant Functional Types (PFTs) and age mapping using time-series satellite data from Sentinel 1 and 2 in 2018. This data was organized into three distinct periods: January-April (P1), May-August (P2), and October-December (P3). For each period, we conducted a mosaicking and compositing process to create a comprehensive satellite image. Our initial exploration aimed to understand the impact of seasonal changes on PFTs and age mapping performance using RF and 2D UNET. Due to the constraints imposed by the input shape, the assessment of 3D UNET and our proposed model was carried out with data spanning the entire year. To facilitate training with our network and 3D UNET, the input shape needed to be adjusted to 13$\times$4$\times$32$\times$32. This adjustment involved stacking the Digital Elevation Model (DEM) band with the Sentinel 1/2 data in P1, P2, and P3, resulting in input dimensions of each 13$\times$32$\times$32. \par
 
 The performance evaluation of segmentation models was conducted using the Overall Accuracy (OA) score on the validation set. Subsequently, results maps generated by each model underwent visual examination to provide a qualitative assessment.\par

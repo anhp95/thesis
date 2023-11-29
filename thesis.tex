@@ -25,6 +25,8 @@ draft=false]{scrreprt}
 \definecolor{delim}{RGB}{20,105,176}
 \colorlet{numb}{magenta!60!black}
 
+\setcounter{secnumdepth}{3}
+
 \lstdefinelanguage{json}{
     basicstyle=\normalfont\ttfamily,
     numbers=left,
@@ -56,7 +58,6 @@ draft=false]{scrreprt}
 
 \captionsetup{labelfont=bf,format=plain,labelsep=period}
 
-
 \input{tex/personal_setting}
 \input{tex/setting}
 
@@ -68,6 +69,7 @@ draft=false]{scrreprt}
 \include{tex/class_setting/eabstract}
 \input{tex/acknowledgements}
 
+\setcounter{tocdepth}{2}
 \tableofcontents
 \listoffigures
 \listoftables
