@@ -4,6 +4,11 @@
 \rhead[\leftmark]{\thepage}
 \cfoot[]{}
 
+This chapter is partially based on the paper \citep{fukui2021digital}:
+\begin{itemize}
+    \item Hiromichi Fukui, Duc Chuc Man, Anh Phan (2021), Digital Earth: A platform for the SDGs and green transformation at the global and local level, employing essential SDGs variables, Big Earth Data, 5:4, 476-496, doi: \url{https://doi.org/10.1080/20964471.2021.1948677}.
+\end{itemize}
+
 \section{Introduction}
 
 The widely acknowledged importance of climate change across various aspects \citep{primack2009impact, watanabe2009general, ogawa2013ecological, shibuya2016effect} is driving an accelerated momentum toward achieving Carbon Neutrality (CN) in local Japanese governments \citep{nakazawa2023net}. In both major corporations and small businesses, there is a rising demand for the measurement of greenhouse gas (GHG) emissions \citep{kauffmann2012corporate}. Companies are mandated to visualize their CO\textsubscript{2} emissions and implement measures to reduce them. As of September 2023, 991 local governments, including Tokyo, Kyoto, and Yokohama, have demonstrated increased enthusiasm for this initiative by declaring their commitment to achieving net-zero carbon emissions by 2050 \citep{zerocarboncities}. However, to specifically implement mitigation and adaptation measures, it is necessary to perform comprehensive risk analysis and calculate detailed emissions for each sector. Furthermore, it is required to visualize this information in an easy-to-understand manner in time and space, and to explain and disclose it to various stakeholders. On the other hand, in recent years, local governments have been accelerating the integration of map information that had previously been prepared separately for each department, such as taxation, urban planning, and the environment. Integrated geographic information systems (GIS) enable cross-sectional analysis of various elements, have become one of the cornerstones of administrative digital transformation (DX), and have been introduced in 60\% of all 1,741 municipalities \citep{nikkei}.\par
@@ -90,37 +95,32 @@ We present examples of two API responses, achieved through the execution of a GE
 
 \begin{lstlisting}[language=json,firstnumber=1, basicstyle=\small, caption={A response from GET /overall\_ems/municipality },captionpos=t]
   {
-    "features": [
-      {
-        "geometry": {
-          "coordinates": [[...]],
-          "type": "Polygon"
-        },
-        "id": "26",
-        "properties": {
-          "adm_code": 23100,
-          "agriculture": 30,
-          "building": 3435,
-          "business": 5034,
-          "city": "Nagoya Shi",
-          "construction_mining": 235,
-          "consumer_total": 8469,
-          "freight_car": 1222,
-          "industry_total": 3900,
-          "manufacture": 3635,
-          "passenger_car": 2134,
-          "pref": "Aichi Ken",
-          "pref_code": 23,
-          "railway": 126,
-          "ship": 46,
-          "total": 16017,
-          "transportation_total": 3528,
-          "waste": 121
-        },
-        "type": "Feature"
-      }
-    ],
-    "type": "FeatureCollection"
+    "features":{
+      "geometry": {
+        "coordinates": [[...]],
+        "type": "Polygon"
+      },
+      "id": "26",
+      "properties": {
+        "adm_code": 23100,
+        "agriculture": 30,
+        "building": 3435,
+        "business": 5034,
+        "city": "Nagoya Shi",
+        "construction_mining": 235,
+        "consumer_total": 8469,
+        "freight_car": 1222,
+        "industry_total": 3900,
+        "manufacture": 3635,
+        "passenger_car": 2134,
+        "pref": "Aichi Ken",
+        "railway": 126,
+        "ship": 46,
+        "total": 16017,
+        "transportation_total": 3528,
+        "waste": 121
+      },
+    }
   }
 \end{lstlisting}
 \begin{lstlisting}[language=json,firstnumber=1, basicstyle=\small, caption={A response from GET /overall\_ems/municipality\_ts},captionpos=t]
